@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["fa53-2601-c4-c880-8070-190a-c850-2b6f-9f64.ngrok-free.app"]
 # Application definition
 
 INSTALLED_APPS = [
+    'django.apps.CybereventsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
