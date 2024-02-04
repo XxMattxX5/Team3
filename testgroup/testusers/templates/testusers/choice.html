@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>login</title>
+</head>
+<body>
+    <form id="databasesearch" method="post">
+        {% csrf_token %}
+        <input type="text" id="name" name="name" autocomplete="off">
+        <select id="opt" name="opt">
+            <option value="empty">select search</option>
+            <option value="student">Students</option>
+            <option value="teacher">Teachers</option>
+            <option value="book">Books</option>
+        </select>
+    </form>
+    <div id="result_list">
+        <ul id="list"></ul>
+    </div>
+    <!--<script>
+        $(document).on('change', '#databasesearch', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type : 'POST',
+                url: "{% url 'teacher' %}",
+                data: {
+                    name: $('#name').val(),
+                    opt: $('#opt').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    if (data == 'empty'){
+                        $('#list').html("");
+                    } else{
+                        listHTML = ""
+                        $.each(data, function(k, v) {
+                            listHTML += ("<li>" + v["name"] + "</li>");
+                            
+                        });
+                        $('#list').html(listHTML);
+                    }
+                    
+                }
+            })
+        })
+    </script>
+-->
+<script>
+    $(document).on('keyup change', '#databasesearch', function (e){
+        e.preventDefault();
+            $.ajax({
+                type : 'POST',
+                url: "{% url 'teacher' %}",
+                data: {
+                    name: $('#name').val(),
+                    opt: $('#opt').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (data) {
+                    if (data == 'empty'){
+                        $('#list').html("");
+                    } else{
+                        listHTML = ""
+                        $.each(data, function(k, v) {
+                        
+                            listHTML += ("<li>" + v["name"] + "</li>");
+                            
+                        });
+                        $('#list').html(listHTML);
+                    }
+                }
+            })
+    });
+</script>
+</body>
+</html>
