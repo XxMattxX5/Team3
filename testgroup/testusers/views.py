@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 
 from django.contrib.auth.forms import UserCreationForm
-#Did this work? Yes it did
+#Did this work?
 # Create your views here.
 
 def home(request):
