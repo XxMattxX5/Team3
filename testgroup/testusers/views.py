@@ -10,7 +10,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 
 from django.contrib.auth.forms import UserCreationForm
+<<<<<<< Updated upstream
 #Did this work?
+=======
+#Did
+>>>>>>> Stashed changes
 # Create your views here.
 
 def home(request):
