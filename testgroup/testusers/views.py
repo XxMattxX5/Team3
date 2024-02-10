@@ -15,6 +15,7 @@ from django.contrib.auth.forms import UserCreationForm
 =======
 #Did
 >>>>>>> Stashed changes
+#working now?
 # Create your views here.
 
 #HI
