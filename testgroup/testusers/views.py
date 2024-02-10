@@ -17,6 +17,7 @@ from django.contrib.auth.forms import UserCreationForm
 >>>>>>> Stashed changes
 # Create your views here.
 
+#HI
 def home(request):
     return HttpResponse("<h1>Home</h1>")
 
