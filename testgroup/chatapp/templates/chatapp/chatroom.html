@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'chatapp/style.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Chatroom {{ room.name }}</title>
+</head>
+<body>
+    <div id="chatbox">
+        <h2 id="chatname">{{ room.name }}</h2>
+    <div id="chatmessages">
+    
+    </div>
+    <form id="newmessageform" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="userid" value="{{user.id}}">
+        <input type="hidden" id="roomid" value="{{room.id}}">
+        <input type="text" id="newmessage" name="newmessage" placeholder="Enter new message">
+        <input type="submit" id="submitnewmessage" value="Enter">
+    </form>
+    </div>
+
+    <script>
+        loadmessage()
+        let messageCount = 0;
+        setInterval(loadmessage, 2000);
+        scrollToBottomWithSmoothScroll()
+        function scrollToBottomWithSmoothScroll(){
+            var objDiv = document.getElementById("chatmessages");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+
+        function loadmessage() {
+            $.ajax({
+                    type : 'POST',
+                    url: "{% url 'loadmessages' %}",
+                    data: {
+                        roomid: $('#roomid').val(),
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function (data) {
+                        if (data.length > messageCount){
+                            messagelist = "";
+                            $.each(data, function(k, v) {
+                                messagelist += ("<p id='messagename'>" + v["user_id"] + ":</p>");
+                                messagelist += ("<p id='message'>" + v["value"] + "</p>");
+                                messagelist += ("<p id='messagedate'>" + v["date"] + "</p>");
+                            
+                            });
+                        
+                            $('#chatmessages').html(messagelist);
+                            if (data.length > messageCount){
+                                scrollToBottomWithSmoothScroll();
+                                messageCount = data.length;
+                            }
+                        }
+                    }
+                })
+        }
+
+        $(document).on('submit', '#newmessageform', function (e){
+            e.preventDefault();
+                $.ajax({
+                    type : 'POST',
+                    url: "{% url 'addmessage' %}",
+                    data: {
+                        userid: $('#userid').val(),
+                        roomid: $('#roomid').val(),
+                        newmessage: $('#newmessage').val(),
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function (data) {
+                        messagelist = ""
+                        $("#newmessage").val(" ")
+                        $.each(data, function(k, v) {
+                            messagelist += ("<p id='messagename'>" + v["user_id"] + ":</p>");
+                            messagelist += ("<p id='message'>" + v["value"] + "</p>");
+                            messagelist += ("<p id='messagedate'>" + v["date"] + "</p>");
+                        
+                    });
+                
+                        $('#chatmessages').html(messagelist)
+                    }
+                })
+        });
+    </script>
+</body>
+</html>

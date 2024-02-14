@@ -1,0 +1,63 @@
+*{
+    margin:0px;
+    padding:0px;
+}
+
+#test {color: red}
+
+#chatbox {
+    width:80%;
+    margin:0 auto;
+    border:1px solid black;
+    margin-top:50px;
+}
+
+#chatname {
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 35px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border:1px solid black;
+}
+
+#chatmessages {
+    height:600px;
+    padding-left: 20px;
+    overflow:hidden;
+    overflow-y: scroll;
+}
+#message {
+    font-size: 21px;
+}
+#messagedate {
+    margin-bottom: 20px;
+}
+
+#newmessageform {
+    text-align: center;
+    
+    width: 100%;
+}
+#newmessage {
+    width: 79%;
+    font-size: 19px;
+    padding: 3px;
+}
+#submitnewmessage {
+    display: inline-block;
+    font-size: 19px;
+    width: 19%;
+    line-height: 28px;
+}
+
+#messagebox2 {
+    text-align: center;
+    height: 700px;
+    overflow:hidden;
+    overflow-y:scroll;
+    margin-bottom: 10px;
+}
+.message2 {
+    margin-bottom: 20px
+}

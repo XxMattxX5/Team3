@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'chatapp/style.css' %}">
+    <title>{{ room_name }}</title>
+</head>
+<body>
+    <div id="messagebox2">
+        
+    </div>
+    <form id="newmessageform2">
+        <input type="hidden" id="newmessageuser2" name="newmessageuser" value = {{ user.id }}>
+        <input type="text" id="newmessage2" name="newmessage">
+        <input type="submit" id="submitnewmessage2" value="send message">
+    </form>
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        var messageform = document.getElementById("newmessageform2");
+        messageform.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            const newMessage = document.getElementById('newmessage2').value;
+            const newmessageuser = document.getElementById('newmessageuser2').value;
+            console.log(newmessageuser)
+            ChatSocket.send(JSON.stringify({
+                'message': newMessage,
+                'user': newmessageuser,
+                'room': roomName
+            }))
+            document.getElementById('newmessage2').value = " ";
+            setTimeout(function(){
+            var objDiv = document.getElementById("messagebox2");
+            objDiv.scrollTop = objDiv.scrollHeight;
+            console.log("Here")
+            }, 1000)
+        });
+
+
+        
+        const ChatSocket = new WebSocket(
+            'ws://' +
+            window.location.host +
+            '/ws/chatapp/' +
+            roomName +
+            '/'
+        );
+
+        ChatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            console.log(data)
+            messagebox = document.getElementById('messagebox2')
+            messages = ""
+            for (let i = 0; i < data.message.length; i++) {
+                messages += "<div class='message2'>";
+                messages  += "<p id='messsender'>" + data.sender[i] + "<p/>";
+                messages  += "<p id='messvalue'>" + data.message[i] + "<p/>";
+                messages += "<p id='messdate'>" + data.date[i] + "<p/>";
+                messages += "</div>";
+            }
+            messagebox.innerHTML = messages
+            var objDiv = document.getElementById("messagebox2");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+
+    </script>
+</body>
+</html>

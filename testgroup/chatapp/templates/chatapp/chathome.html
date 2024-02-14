@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'chatapp/style.css' %}">
+    <title>Ajax</title>
+</head>
+<body>
+    <form action="{% url 'chatroom' %}", method="POST">
+        {% csrf_token %}
+        <input type="text" id="roomname" name="roomname" placeholder="Enter Room Name">
+        <input type="submit" value="Enter">
+    </form>
+    </br>
+    <p><a href="{% url 'createroom' %}">Create Room</a></p>
+</body>
+</html>
